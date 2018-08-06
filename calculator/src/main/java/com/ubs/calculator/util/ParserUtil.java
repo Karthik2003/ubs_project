@@ -15,6 +15,7 @@ public class ParserUtil {
 	public static final String defaultDelimiter = ",";
 	public static final String newLine = "\n";
 	public static final String startInput = "//";
+	public static final String separator = "|";
 
 //Below check is not required as it does not cover functional use-case  
 /*	public static boolean checkNumberPresent(String input) {
@@ -41,6 +42,16 @@ public class ParserUtil {
 	public static String findDelimiter(String input) {
 		
 		return input.substring(input.indexOf(startInput) + 2, input.indexOf(newLine));
+	}
+	
+	public static String getSeparatorPrefix(String input) {
+		
+		return input.substring(input.indexOf(startInput) + 2, input.indexOf(separator));
+	}
+	
+	public static String getSeparatorSuffix(String input) {
+		
+		return input.substring(input.indexOf(separator) + 1 , input.indexOf(newLine));
 	}
 	
 	

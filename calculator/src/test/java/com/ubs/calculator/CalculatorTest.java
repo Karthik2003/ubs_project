@@ -84,5 +84,17 @@ public class CalculatorTest {
 
     	assertThat(calc.add("//***\n1***2***3"), is(6));
     }
+    
+    @Test
+    public void assertMultiDelimiterChar() throws NotValidInputException {
+
+    	assertThat(calc.add("//*|%\n1*2%3"), is(6));
+    }
+    
+    @Test
+    public void assertMultiDelimiterString() throws NotValidInputException {
+
+    	assertThat(calc.add("//****|%%%%\n1****2%%%%3"), is(6));
+    }
 
 }

@@ -40,10 +40,9 @@ public class Calculator implements ICalculator {
 				numbers = numbers.replaceAll(ParserUtil.newLine, ParserUtil.defaultDelimiter);
 			} else {
 				delimiter = ParserUtil.findDelimiter(numbers);
-				numbers = numbers.substring(numbers.indexOf(ParserUtil.newLine) + 1, numbers.length());
-				numbers = numbers.replace(delimiter, ParserUtil.defaultDelimiter);
+				numbers = processDelimiter(numbers, delimiter);
 			}
-			
+
 			String digits[] = numbers.split(ParserUtil.defaultDelimiter);
 
 			int output = 0;
@@ -65,10 +64,22 @@ public class Calculator implements ICalculator {
 		}
 	}
 
-	// This need to be removed during final build
-	public static void main(String[] args) throws NotValidInputException {
-		Calculator calc = new Calculator();
-		System.out.println("-------------" + calc.add("//***\n1***2***3"));
+	/**
+	 * @param numbers
+	 * @param delimiter
+	 * @return
+	 */
+	private String processDelimiter(String numbers, String delimiter) {
+		if (delimiter.contains("|")) {
+			String prefix = ParserUtil.getSeparatorPrefix(numbers);
+			String suffix = ParserUtil.getSeparatorSuffix(numbers);
+			numbers = numbers.substring(numbers.indexOf(ParserUtil.newLine) + 1, numbers.length());
+			numbers = numbers.replace(prefix, ParserUtil.defaultDelimiter);
+			numbers = numbers.replace(suffix, ParserUtil.defaultDelimiter);
+		} else {
+			numbers = numbers.substring(numbers.indexOf(ParserUtil.newLine) + 1, numbers.length());
+			numbers = numbers.replace(delimiter, ParserUtil.defaultDelimiter);
+		}
+		return numbers;
 	}
-
 }
