@@ -51,14 +51,15 @@ public class CalculatorTest {
         }
     }    
 
-    @Test
+//Below test case is not required as it does not cover functional use-case    
+/*    @Test
     public void noNumberInput()  {
         try {
         	calc.add("safdsafadfd");
         } catch (Exception e) {
             assertEquals("error message", "Input does not consists of number", e.getMessage());
         }
-    }
+    }*/
     
     @Test
     public void checkNumberLimitMore() throws NotValidInputException {
@@ -70,6 +71,18 @@ public class CalculatorTest {
     public void checkNumberLimit() throws NotValidInputException {
 
     	assertThat(calc.add("2,3,1000,5"), is(1010));
+    }
+    
+    @Test
+    public void assertDelimiterChar() throws NotValidInputException {
+
+    	assertThat(calc.add("//;\n1;2"), is(3));
+    }
+    
+    @Test
+    public void assertDelimiterString() throws NotValidInputException {
+
+    	assertThat(calc.add("//***\n1***2***3"), is(6));
     }
 
 }

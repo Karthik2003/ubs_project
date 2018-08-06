@@ -35,36 +35,40 @@ public class Calculator implements ICalculator {
 			return 0;
 		} else {
 			ParserUtil.validate(numbers);
+			String delimiter = null;
 			if (!ParserUtil.defaultDelimiterExists(numbers)) {
-				String digits[] = numbers.split(ParserUtil.defaultDelimiter);
-
-				int output = 0;
-				List<String> negativeList = new ArrayList<String>();
-				for (String value : digits) {
-					if (Integer.parseInt(value) < 0) {//negative number message
-						negativeList.add(value);
-					}
-					if (Integer.parseInt(value) > Calculator.MAX_VALUE){// number bigger than 1000
-						output = output + 0;
-					} else {
-						output = output + Integer.parseInt(value);
-					}
-					
-				}
-				if (negativeList.size() > 0) {
-					throw new NotValidInputException("Negatives not allowed" + negativeList);
-				}
-				return output;
+				numbers = numbers.replaceAll(ParserUtil.newLine, ParserUtil.defaultDelimiter);
 			} else {
-				//TODO: implement logic for multiple delimiter 
+				delimiter = ParserUtil.findDelimiter(numbers);
+				numbers = numbers.substring(numbers.indexOf(ParserUtil.newLine) + 1, numbers.length());
+				numbers = numbers.replace(delimiter, ParserUtil.defaultDelimiter);
 			}
-			return 0;
+			
+			String digits[] = numbers.split(ParserUtil.defaultDelimiter);
+
+			int output = 0;
+			List<String> negativeList = new ArrayList<String>();
+			for (String value : digits) {
+				if (Integer.parseInt(value) < 0) {// negative number message
+					negativeList.add(value);
+				}
+				if (Integer.parseInt(value) > Calculator.MAX_VALUE) {// number bigger than 1000
+					output = output + 0;
+				} else {
+					output = output + Integer.parseInt(value);
+				}
+			}
+			if (negativeList.size() > 0) {
+				throw new NotValidInputException("Negatives not allowed" + negativeList);
+			}
+			return output;
 		}
 	}
-	//This need to be removed during final build
+
+	// This need to be removed during final build
 	public static void main(String[] args) throws NotValidInputException {
 		Calculator calc = new Calculator();
-		System.out.println("#############"+calc.add("1,3,1000,5"));
+		System.out.println("-------------" + calc.add("//***\n1***2***3"));
 	}
 
 }
